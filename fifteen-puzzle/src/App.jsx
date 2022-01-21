@@ -1,8 +1,11 @@
 function App() {
+
+  function shuffleNumbers(boardSize) {
+    const randomArray = [...Array(boardSize * boardSize).keys()].sort(() => .5 - Math.random());
+  }
+  shuffleNumbers(4) 
   return (
-    <div>
-      <p>work, plx</p>
-    </div>
+  <h1>Should have a board here</h1>
   );
 }
 
