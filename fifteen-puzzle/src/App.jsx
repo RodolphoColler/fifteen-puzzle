@@ -11,8 +11,7 @@ function getPartOfArray(a, index, boardSize) {
 function divideArray(array, boardSize) {
   const arrayOfArrays = [];
   [...Array(boardSize).keys()].forEach((_, index) => {
-    arrayOfArrays.push([])
-    arrayOfArrays[index].push(getPartOfArray(array, index, boardSize))
+    arrayOfArrays.push(getPartOfArray(array, index, boardSize))
   })
   return arrayOfArrays;
 }
@@ -22,11 +21,18 @@ function randomArray(boardSize) {
 }
 
 function shuffleNumbers(boardSize) {
-    return divideArray(randomArray(boardSize), boardSize)
+    return divideArray(randomArray(boardSize), boardSize);
   }
 
   return (
-  <h1>Should have a board here</h1>
+  <>
+    <h1>Should have a board here</h1>
+    { shuffleNumbers(4).map((array, index) => array.map((number, i) => (
+      <button type="button" id={`${index}-${i}`}>
+        {number}
+      </button>
+    ))) }
+  </>
   );
 }
 
