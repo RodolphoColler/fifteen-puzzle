@@ -1,6 +1,6 @@
 function App() {
 
-function partofAnArray(a, index, boardSize) {
+function getPartOfArray(a, index, boardSize) {
   if (index === 0) {
   return a.slice(0, boardSize);
   } else {
@@ -12,20 +12,19 @@ function divideArray(array, boardSize) {
   const arrayOfArrays = [];
   [...Array(boardSize).keys()].forEach((_, index) => {
     arrayOfArrays.push([])
-    arrayOfArrays[index].push(partofAnArray(array, index, boardSize))
+    arrayOfArrays[index].push(getPartOfArray(array, index, boardSize))
   })
   return arrayOfArrays;
 }
 
-  function shuffleNumbers(boardSize) {
-    const randomArray = [...Array(boardSize * boardSize).keys()].sort(() => .5 - Math.random());
+function randomArray(boardSize) {
+  return [...Array(boardSize * boardSize).keys()].sort(() => .5 - Math.random());
+}
 
-    divideArray(randomArray)
-
-    console.log(divideArray(randomArray, boardSize));
-    
+function shuffleNumbers(boardSize) {
+    return divideArray(randomArray(boardSize), boardSize)
   }
-  shuffleNumbers(4) 
+
   return (
   <h1>Should have a board here</h1>
   );
