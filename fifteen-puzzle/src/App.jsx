@@ -29,13 +29,20 @@ function App() {
     return string[string.length - 1];
   }
 
+  function changePieces(target, emptyButton) {
+    target.classList.add('empty')
+    emptyButton.classList.remove('empty')
+    emptyButton.textContent = target.textContent 
+    target.textContent = ''
+  }
+
   function move({ target }) {
     const emptyButton = document.querySelector('.empty')
     if(getLastCharacter(emptyButton.id) === getLastCharacter(target.id) && Math.abs(emptyButton.id[0] - target.id[0]) === 1) {
-      console.log('amora');
+      changePieces(target, emptyButton)
     }
     if(emptyButton.id[0] === target.id[0]  && Math.abs(getLastCharacter(emptyButton.id) - getLastCharacter(target.id)) === 1) {
-      console.log('amora');
+      changePieces(target, emptyButton)
     }
   }
 
