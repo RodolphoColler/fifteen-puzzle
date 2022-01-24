@@ -1,17 +1,15 @@
+import { createSignal } from 'solid-js';
 import './Board.css'
 
 function App() {
+  const [toggle, setToggle] = createSignal(false)
 
-  function getPartOfArray(array, e, boardSize) {
-    return array.slice(boardSize * e, (e + 1) * boardSize);
+  function getPartOfArray(index, array, boardSize) {
+    return array.slice(boardSize * index, (index + 1) * boardSize);
   }
 
   function divideArray(array, boardSize) {
-    const arrayOfArrays = [];
-    [...Array(boardSize).keys()].forEach(e => {
-      arrayOfArrays.push(getPartOfArray(array, e, boardSize))
-    })
-    return arrayOfArrays;
+    return [...Array(boardSize).keys()].map(index => getPartOfArray(index, array, boardSize))
   }
 
   function getRandomArray(boardSize) {
@@ -20,6 +18,17 @@ function App() {
 
   function shuffleNumbers(boardSize) {
     return divideArray(getRandomArray(boardSize), boardSize);
+  }
+
+  function alreadyWinTheGame() {
+    const allButtons = document.querySelectorAll('button');
+    const buttonsTextContent = [...allButtons].map(e => e.textContent);
+    const originalArray = [...Array(4).keys()];
+    buttonsTextContent.pop();
+    originalArray.shift();
+    if(originalArray.every((e, index) =>  e === Number(buttonsTextContent[index]))) {
+      setToggle(!toggle())
+    }
   }
 
   function getLastCharacter(string) {
@@ -31,34 +40,32 @@ function App() {
     emptyButton.classList.remove('empty')
     emptyButton.textContent = target.textContent 
     target.textContent = null
-  }
-
-  function alreadyWinTheGame() {
-    const allButtons = document.querySelectorAll('button')
-    const buttonsTextContent = [...allButtons].map(e => e.textContent)
-    const originalArray = [...Array(16).keys()]
-    buttonsTextContent.pop();
-    originalArray.shift()
-    const a  = originalArray.every((e, index) =>  e === Number(buttonsTextContent[index]))
+    alreadyWinTheGame()
   }
 
   function move({ target }) {
     const emptyButton = document.querySelector('.empty')
+
     if(getLastCharacter(emptyButton.id) === getLastCharacter(target.id) && Math.abs(emptyButton.id[0] - target.id[0]) === 1) {
       changePieces(target, emptyButton)
-      alreadyWinTheGame()
     }
     if(emptyButton.id[0] === target.id[0]  && Math.abs(getLastCharacter(emptyButton.id) - getLastCharacter(target.id)) === 1) {
       changePieces(target, emptyButton)
-      alreadyWinTheGame()
     }
+
   }
 
   return (
   <>
-    <div class="wrapper">
+      { toggle() && (
+        <>
+          <p>congrats</p>
+          <div class="congrats-card" />
+        </>
+      )}
+    <div class={`wrapper`}>
       <main class="board">
-        { shuffleNumbers(4).map((array, index) => array.map((number, i) => (
+        { shuffleNumbers(2).map((array, index) => array.map((number, i) => (
           <button 
             type="button"
             id={`${index}-${i}`}
