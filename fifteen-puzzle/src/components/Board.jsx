@@ -1,6 +1,10 @@
-// import './Board.css'
+import { onMount } from "solid-js";
 
-function Board({ boardSize }) {
+function Board({ boardSize, timer, setTimer }) {
+
+  onMount(() => {
+    setInterval(() => setTimer((prev) => prev + 1 ), 1000)
+  })
 
   function getPartOfArray(index, array, boardSize) {
     return array.slice(boardSize * index, (index + 1) * boardSize);
@@ -55,7 +59,10 @@ function Board({ boardSize }) {
 
   return (
     <main class="board">
-    { shuffleNumbers(Number(boardSize())).map((array, index) => array.map((number, i) => (
+
+      <h3>time {`${Math.floor(timer() / 60)}:${(timer() % 60) < 10 ? '0' + timer() % 60 : timer() % 60 }`}</h3>
+
+      { shuffleNumbers(Number(boardSize())).map((array, index) => array.map((number, i) => (
       <button 
         type="button"
         id={`${index}-${i}`}
