@@ -1,9 +1,16 @@
-import { onMount } from "solid-js";
+import { onMount, createSignal } from "solid-js";
 
-function Board({ boardSize, timer, setTimer }) {
+function Board({ boardSize }) {
+  const [toggle, setToggle] = createSignal(true)
+  const [timer, setTimer] = createSignal('0:00');
+  const [showTime, setShowTime] = createSignal('0:00');
 
   onMount(() => {
-    setInterval(() => setTimer((prev) => prev + 1 ), 1000)
+    let a = 0
+    setInterval(() => {
+      a += 1
+      setTimer(`${Math.floor(a / 60)}:${String(a % 60).padStart(2,'0')}`)
+    }, 1000)
   })
 
   function getPartOfArray(index, array, boardSize) {
@@ -30,6 +37,7 @@ function Board({ boardSize, timer, setTimer }) {
     originalArray.shift();
     if(originalArray.every((e, index) =>  e === Number(buttonsTextContent[index]))) {
       setToggle(!toggle())
+      setShowTime(timer())
     }
   }
 
@@ -58,21 +66,39 @@ function Board({ boardSize, timer, setTimer }) {
   }
 
   return (
+    <>
+      { toggle() && (
+        <>
+          <div class="congrats-card">
+            <h2>Congratulations</h2>
+            <p>You complete the puzzle in {`${showTime()} minutes`}</p>
+            <p>Share with your friends and challenge them</p>
+          </div>
+          <div class="darker-background" />
+        </>
+      )}
     <main class="board">
 
-      <h3>time {`${Math.floor(timer() / 60)}:${(timer() % 60) < 10 ? '0' + timer() % 60 : timer() % 60 }`}</h3>
+      <h3>{timer()}</h3>
 
-      { shuffleNumbers(Number(boardSize())).map((array, index) => array.map((number, i) => (
-      <button 
-        type="button"
-        id={`${index}-${i}`}
-        class={ number === 0 && 'empty' }
-        onClick={ (e) => move(e) }
-      >
-        {number === 0 ? null : number }
-      </button>
-    ))) }
+      { shuffleNumbers(Number(boardSize())).map((array, index) => (
+        <div class="row-buttons"> 
+          {
+            array.map((number, i) => (
+              <button 
+                type="button"
+                id={`${index}-${i}`}
+                class={ number === 0 && 'empty' }
+                onClick={ (e) => move(e) }
+              >
+                {number === 0 ? '' : number }
+              </button>
+          ))
+          }
+        </div>
+    )) }
   </main>
+  </>
   )
 }
 
