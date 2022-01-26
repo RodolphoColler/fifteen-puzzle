@@ -7,12 +7,10 @@ function App() {
   const [toggle, setToggle] = createSignal(false)
   const [boardSize, setBoardSize] = createSignal(4)
 
-  console.log(boardSize());
-
   return (
   <>
     <div class={`wrapper`}>
-      { toggle() ? <Board boardSize={ boardSize }/>
+      { toggle() ? <Board boardSize={ boardSize } />
         : <Input setToggle={ setToggle } setBoardSize={ setBoardSize }/>
       }
     </div>
