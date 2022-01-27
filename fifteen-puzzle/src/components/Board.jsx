@@ -1,7 +1,7 @@
 import { onMount, createSignal } from "solid-js";
 
 function Board({ boardSize }) {
-  const [toggle, setToggle] = createSignal(true)
+  const [toggle, setToggle] = createSignal(false)
   const [timer, setTimer] = createSignal('0:00');
   const [showTime, setShowTime] = createSignal('0:00');
 
@@ -18,24 +18,36 @@ function Board({ boardSize }) {
   }
 
   function divideArray(array, boardSize) {
-    return [...Array(boardSize).keys()].map(index => getPartOfArray(index, array, boardSize))
+    return getArrayOfNumbers(boardSize).map(index => getPartOfArray(index, array, boardSize))
   }
 
   function getRandomArray(boardSize) {
-    return [...Array(boardSize * boardSize).keys()].sort(() => .5 - Math.random());
+    return getArrayOfNumbers(boardSize * boardSize).sort(() => .5 - Math.random());
   }
 
   function shuffleNumbers(boardSize) {
     return divideArray(getRandomArray(boardSize), boardSize);
   }
 
-  function alreadyWinTheGame() {
-    const allButtons = document.querySelectorAll('button');
-    const buttonsTextContent = [...allButtons].map(e => e.textContent);
-    const originalArray = [...Array(4).keys()];
-    buttonsTextContent.pop();
+  function getArrayOfNumbers(arrayLength) {
+    return [...Array(arrayLength).keys()]
+  }
+
+  function getButtonsArray() {
+    let allButtons = document.querySelectorAll('button');
+    allButtons = [...allButtons].map(e => Number(e.textContent));
+    allButtons.pop();
+    return allButtons;
+  }
+
+  function getOriginalArray() {
+    const originalArray = getArrayOfNumbers(Number(boardSize()) ** 2 );
     originalArray.shift();
-    if(originalArray.every((e, index) =>  e === Number(buttonsTextContent[index]))) {
+    return originalArray;
+  }
+
+  function alreadyWinTheGame() {
+    if(getOriginalArray().every((e, index) =>  e === getButtonsArray()[index] )) {
       setToggle(!toggle())
       setShowTime(timer())
     }
