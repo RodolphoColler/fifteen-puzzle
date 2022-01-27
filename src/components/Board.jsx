@@ -1,9 +1,10 @@
 import { onMount, createSignal } from "solid-js";
 
 function Board({ boardSize }) {
-  const [toggle, setToggle] = createSignal(false)
+  const [toggle, setToggle] = createSignal(false);
   const [timer, setTimer] = createSignal('0:00');
   const [showTime, setShowTime] = createSignal('0:00');
+  const [moveCount, setMoveCount] = createSignal(0);
 
   onMount(() => {
     let a = 0
@@ -63,6 +64,7 @@ function Board({ boardSize }) {
     emptyButton.textContent = target.textContent 
     target.textContent = null
     alreadyWinTheGame()
+    setMoveCount(prev => prev + 1)
   }
 
   function move({ target }) {
@@ -91,7 +93,13 @@ function Board({ boardSize }) {
       )}
     <main class="board">
 
-      <h3>{timer()}</h3>
+      <header class="board-header">
+        <h1>Fifteen puzzle</h1>
+        <div>
+          <h3>{timer()}</h3>
+          <h3>moves: {moveCount()} </h3>
+        </div>
+      </header>
 
       { shuffleNumbers(Number(boardSize())).map((array, index) => (
         <div class="row-buttons"> 

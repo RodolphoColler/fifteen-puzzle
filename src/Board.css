@@ -1,0 +1,71 @@
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color:  #e5e5dc;
+}
+
+.wrapper h3 {
+  color: #e5e5dc;
+}
+
+.board {
+  padding: 30px;
+  border-radius: 8px;
+  background-color: #c66b3d;
+}
+
+.board-header {
+  display: flex;
+  align-items: center;
+  flex-flow: column;
+  width: 100%;
+  margin-bottom: 0;
+  color: #e5e5dc;
+  height: 150px;
+}
+
+.board-header div {
+  display: flex;
+  justify-content: space-around;
+  width: 70%;
+}
+
+.row-buttons {
+  display: flex;
+}
+
+.row-buttons > button {
+  margin: 5px;
+  border-radius: 5px;
+  font-size: 50px;
+  width: 75px;
+  height: 75px;
+  border: none;
+  color: #e5e5dc;
+  background-color: #26495c;
+}
+
+.congrats-card h2 {
+  color: #c66b3d;
+}
+
+.congrats-card {
+  background-color: #e5e5dc;
+  border-radius: 8px;
+  text-align: center;
+  width: 30%;
+  height: 20%;
+  position: absolute;
+  z-index: 1;
+}
+
+.darker-background {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(0, 0, 0);
+  opacity: 0.5;
+  position: absolute;
+}
