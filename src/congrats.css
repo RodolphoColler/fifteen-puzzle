@@ -1,0 +1,22 @@
+.darker-background {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed; 
+  width: 100%; 
+  height: 100%; 
+  background-color: rgba(0,0,0,0.5);
+}
+
+.congrats-card {
+  background-color: #e5e5dc;
+  border-radius: 8px;
+  text-align: center;
+  position: absolute;
+  width: 30%;
+  height: 20%;
+}
+
+.congrats-card h2 {
+  color: #c66b3d;
+}

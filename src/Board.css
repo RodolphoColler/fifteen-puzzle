@@ -48,24 +48,6 @@
   background-color: #26495c;
 }
 
-.congrats-card h2 {
-  color: #c66b3d;
-}
-
-.congrats-card {
-  background-color: #e5e5dc;
-  border-radius: 8px;
-  text-align: center;
-  width: 30%;
-  height: 20%;
-  position: absolute;
-  z-index: 1;
-}
-
-.darker-background {
-  width: 100vw;
-  height: 100vh;
-  background-color: rgb(0, 0, 0);
-  opacity: 0.5;
-  position: absolute;
+.empty {
+  color: #26495c !important;
 }
