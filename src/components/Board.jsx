@@ -1,18 +1,11 @@
 import { onMount, createSignal } from "solid-js";
+import Timer from "./Timer";
 
-function Board({ boardSize }) {
+function Board({isTimerStarted}) {
   const [toggle, setToggle] = createSignal(false);
   const [timer, setTimer] = createSignal('0:00');
   const [showTime, setShowTime] = createSignal('0:00');
   const [moveCount, setMoveCount] = createSignal(0);
-
-  onMount(() => {
-    let a = 0
-    setInterval(() => {
-      a += 1
-      setTimer(`${Math.floor(a / 60)}:${String(a % 60).padStart(2,'0')}`)
-    }, 1000)
-  })
 
   function getPartOfArray(index, array, boardSize) {
     return array.slice(boardSize * index, (index + 1) * boardSize);
@@ -96,12 +89,12 @@ function Board({ boardSize }) {
       <header class="board-header">
         <h1>Fifteen puzzle</h1>
         <div>
-          <h3>{timer()}</h3>
+          <Timer isTimerStarted={ isTimerStarted }/>          
           <h3>moves: {moveCount()} </h3>
         </div>
       </header>
 
-      { shuffleNumbers(Number(boardSize())).map((array, index) => (
+      { shuffleNumbers(4).map((array, index) => (
         <div class="row-buttons"> 
           {
             array.map((number, i) => (
