@@ -15,7 +15,7 @@ function Timer({ isTimerStarted, timer,setTimer }) {
 
   return (
     <>
-      <h3>{ timer() }</h3>
+      <h2>{ timer() }</h2>
     </>
   );
 }

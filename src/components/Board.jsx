@@ -31,8 +31,7 @@ function Board({ isTimerStarted }) {
 
   function getButtonsArray() {
     let allButtons = document.querySelectorAll("button");
-    allButtons = [...allButtons].map((e) => Number(e.textContent));
-    return allButtons;
+    return [...allButtons].map((e) => Number(e.textContent));
   }
 
   function getOrdinateArray() {
@@ -80,7 +79,7 @@ function Board({ isTimerStarted }) {
           <h1>Fifteen puzzle</h1>
           <div>
             <Timer isTimerStarted={isTimerStarted} timer={ timer } setTimer={ setTimer }/>
-            <h3>moves: {moveCount()} </h3>
+            <h2>Moves: {moveCount()} </h2>
           </div>
         </header>
 
