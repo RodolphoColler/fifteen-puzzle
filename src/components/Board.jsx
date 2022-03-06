@@ -1,49 +1,48 @@
-import { onMount, createSignal } from "solid-js";
+import { createSignal } from "solid-js";
+import Congrats from "./Congrats";
 import Timer from "./Timer";
+import '../congrats.css';
 
-function Board({isTimerStarted}) {
+function Board({ isTimerStarted }) {
   const [toggle, setToggle] = createSignal(false);
-  const [timer, setTimer] = createSignal('0:00');
-  const [showTime, setShowTime] = createSignal('0:00');
+  const [timer, setTimer] = createSignal('00:00');
+  const [conclusionTime, setConclusionTime] = createSignal(0);
   const [moveCount, setMoveCount] = createSignal(0);
 
   function getPartOfArray(index, array, boardSize) {
     return array.slice(boardSize * index, (index + 1) * boardSize);
   }
 
-  function divideArray(array, boardSize) {
-    return getArrayOfNumbers(boardSize).map(index => getPartOfArray(index, array, boardSize))
+  function breakArray(array, boardSize) {
+    return getArrayOfNumbers(boardSize).map((index) => getPartOfArray(index, array, boardSize));
   }
 
   function getRandomArray(boardSize) {
-    return getArrayOfNumbers(boardSize * boardSize).sort(() => .5 - Math.random());
+    return getArrayOfNumbers(boardSize * boardSize).sort(() => 0.5 - Math.random());
   }
 
-  function shuffleNumbers(boardSize) {
-    return divideArray(getRandomArray(boardSize), boardSize);
+  function getBoardNumbers(boardSize) {
+    return breakArray(getRandomArray(boardSize), boardSize);
   }
 
   function getArrayOfNumbers(arrayLength) {
-    return [...Array(arrayLength).keys()]
+    return [...Array(arrayLength).keys()];
   }
 
   function getButtonsArray() {
-    let allButtons = document.querySelectorAll('button');
-    allButtons = [...allButtons].map(e => Number(e.textContent));
-    allButtons.pop();
+    let allButtons = document.querySelectorAll("button");
+    allButtons = [...allButtons].map((e) => Number(e.textContent));
     return allButtons;
   }
 
-  function getOriginalArray() {
-    const originalArray = getArrayOfNumbers(Number(boardSize()) ** 2 );
-    originalArray.shift();
-    return originalArray;
+  function getOrdinateArray() {
+    return getArrayOfNumbers(4 ** 2);
   }
 
-  function alreadyWinTheGame() {
-    if(getOriginalArray().every((e, index) =>  e === getButtonsArray()[index] )) {
-      setToggle(!toggle())
-      setShowTime(timer())
+  function winTheGame() {
+    if (getOrdinateArray().every((e, index) => e === getButtonsArray()[index])) {
+      setToggle(!toggle());
+      setConclusionTime(timer());
     }
   }
 
@@ -51,68 +50,57 @@ function Board({isTimerStarted}) {
     return string[string.length - 1];
   }
 
-  function changePieces(target, emptyButton) {
-    target.classList.add('empty')
-    emptyButton.classList.remove('empty')
-    emptyButton.textContent = target.textContent 
-    target.textContent = null
-    alreadyWinTheGame()
-    setMoveCount(prev => prev + 1)
+  function changeTiles(target, emptyButton) {
+    target.classList.add("empty");
+    emptyButton.classList.remove("empty");
+    emptyButton.textContent = target.textContent;
+    target.textContent = 0;
+    setMoveCount((prev) => prev + 1);
+    winTheGame();
   }
 
-  function move({ target }) {
-    const emptyButton = document.querySelector('.empty')
+  function shouldTileMove({ target }) {
+    const emptyButton = document.querySelector(".empty");
 
-    if(getLastCharacter(emptyButton.id) === getLastCharacter(target.id) && Math.abs(emptyButton.id[0] - target.id[0]) === 1) {
-      changePieces(target, emptyButton)
+    if (getLastCharacter(emptyButton.id) === getLastCharacter(target.id) && Math.abs(emptyButton.id[0] - target.id[0]) === 1) {
+      changeTiles(target, emptyButton);
     }
-    if(emptyButton.id[0] === target.id[0]  && Math.abs(getLastCharacter(emptyButton.id) - getLastCharacter(target.id)) === 1) {
-      changePieces(target, emptyButton)
+    if (emptyButton.id[0] === target.id[0] && Math.abs(getLastCharacter(emptyButton.id) - getLastCharacter(target.id)) === 1
+    ) {
+      changeTiles(target, emptyButton);
     }
-
   }
 
   return (
     <>
-      { toggle() && (
-        <>
-          <div class="congrats-card">
-            <h2>Congratulations</h2>
-            <p>You complete the puzzle in {`${showTime()} minutes`}</p>
-            <p>Share with your friends and challenge them</p>
+      {toggle() && <Congrats conclusionTime={ conclusionTime }/>}
+
+      <main class="board">
+        <header class="board-header">
+          <h1>Fifteen puzzle</h1>
+          <div>
+            <Timer isTimerStarted={isTimerStarted} timer={ timer } setTimer={ setTimer }/>
+            <h3>moves: {moveCount()} </h3>
           </div>
-          <div class="darker-background" />
-        </>
-      )}
-    <main class="board">
+        </header>
 
-      <header class="board-header">
-        <h1>Fifteen puzzle</h1>
-        <div>
-          <Timer isTimerStarted={ isTimerStarted }/>          
-          <h3>moves: {moveCount()} </h3>
-        </div>
-      </header>
-
-      { shuffleNumbers(4).map((array, index) => (
-        <div class="row-buttons"> 
-          {
-            array.map((number, i) => (
-              <button 
+        {getBoardNumbers(4).map((array, index) => (
+          <div class="row-buttons">
+            {array.map((number, i) => (
+              <button
                 type="button"
                 id={`${index}-${i}`}
-                class={ number === 0 && 'empty' }
-                onClick={ (e) => move(e) }
+                class={number === 0 && "empty"}
+                onClick={(e) => shouldTileMove(e)}
               >
-                {number === 0 ? '' : number }
+                { number }
               </button>
-          ))
-          }
-        </div>
-    )) }
-  </main>
-  </>
-  )
+            ))}
+          </div>
+        ))}
+      </main>
+    </>
+  );
 }
 
 export default Board;
