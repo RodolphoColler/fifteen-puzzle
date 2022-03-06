@@ -1,8 +1,8 @@
 import { createSignal } from "solid-js";
 import Congrats from "./Congrats";
 import Timer from "./Timer";
-import '../congrats.css';
-import '../board.css'
+import '../css/congrats.css'
+import '../css/board.css'
 
 function Board({ isTimerStarted }) {
   const [toggle, setToggle] = createSignal(false);

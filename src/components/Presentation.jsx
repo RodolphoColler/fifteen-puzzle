@@ -1,4 +1,4 @@
-import '../presentation.css';
+import '../css/presentation.css';
 
 function Presentation({setIsTimerStarted}) {
   
