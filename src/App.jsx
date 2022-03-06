@@ -1,7 +1,7 @@
 import { createSignal } from 'solid-js';
 import Board from './components/Board';
 import Presentation from './components/Presentation';
-import './Board.css'
+import './board.css'
 
 function App() {
   const [isTimerStarted, setIsTimerStarted] = createSignal(false)

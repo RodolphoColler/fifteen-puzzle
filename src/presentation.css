@@ -21,9 +21,20 @@
 }
 
 .presentation-card p {
-  color: #c66b3d;
+  color: #26495c;
 }
 
 .presentation-card button {
-  color: #c66b3d;
+  width: 70px;
+  height: 30px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  color: #e5e5dc;
+  background-color: #26495c;
+}
+
+.presentation-card button:hover {
+  background-color: #1e3847;
+  transition: 0.6s;
 }

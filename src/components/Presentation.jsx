@@ -7,7 +7,7 @@ function Presentation({setIsTimerStarted}) {
       <div class='presentation-card-background'>
         <div class='presentation-card'>
           <h2>Something</h2>
-          <p>Text to player read</p>
+          <p>The goal of the puzzle is to place the tiles in numerical order.</p>
           <button onClick={ (e) => {
             e.target.closest('.presentation-card-background').remove(),
             setIsTimerStarted(prev => !prev)
