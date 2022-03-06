@@ -1,18 +1,16 @@
 import { createSignal } from 'solid-js';
 import Board from './components/Board';
-import Input from './components/Input';
+import Presentation from './components/Presentation';
 import './Board.css'
 
 function App() {
-  const [toggle, setToggle] = createSignal(false)
-  const [boardSize, setBoardSize] = createSignal(4)
+  const [isTimerStarted, setIsTimerStarted] = createSignal(false)
 
   return (
   <>
     <div class={`wrapper`}>
-      { toggle() ? <Board boardSize={ boardSize } />
-        : <Input setToggle={ setToggle } setBoardSize={ setBoardSize }/>
-      }
+      <Board isTimerStarted={ isTimerStarted }/>
+      <Presentation setIsTimerStarted={ setIsTimerStarted } />
     </div>
   </>
   );
