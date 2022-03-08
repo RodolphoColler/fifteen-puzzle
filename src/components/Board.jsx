@@ -10,24 +10,24 @@ function Board({ isTimerStarted }) {
   const [conclusionTime, setConclusionTime] = createSignal(0);
   const [moveCount, setMoveCount] = createSignal(0);
 
-  function getPartOfArray(index, array, boardSize) {
+  function getBoardRowNumbers(index, array, boardSize) {
     return array.slice(boardSize * index, (index + 1) * boardSize);
   }
 
-  function breakArray(array, boardSize) {
-    return getArrayOfNumbers(boardSize).map((index) => getPartOfArray(index, array, boardSize));
+  function getBoardRow(array, boardSize) {
+    return getArrayOfNumbers(boardSize).map((index) => getBoardRowNumbers(index, array, boardSize));
   }
 
   function getRandomArray(boardSize) {
     return getArrayOfNumbers(boardSize * boardSize).sort(() => 0.5 - Math.random());
   }
 
-  function getBoardNumbers(boardSize) {
-    return breakArray(getRandomArray(boardSize), boardSize);
-  }
-
   function getArrayOfNumbers(arrayLength) {
     return [...Array(arrayLength).keys()];
+  }
+
+  function getBoardNumbers(boardSize) {
+    return getBoardRow(getRandomArray(boardSize), boardSize);
   }
 
   function getButtonsArray() {
