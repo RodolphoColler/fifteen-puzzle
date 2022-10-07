@@ -31,16 +31,19 @@ function Board({ isTimerStarted }) {
   }
 
   function getButtonsArray() {
-    let allButtons = document.querySelectorAll("button");
+    const allButtons = document.querySelectorAll("button");
     return [...allButtons].map((e) => Number(e.textContent));
   }
 
-  function getOrdinateArray() {
-    return getArrayOfNumbers(4 ** 2);
+  function getOrdenatedArray() {
+    const arrayLength = 16;
+    const ordenatedArray = getArrayOfNumbers(arrayLength);
+    ordenatedArray.push(ordenatedArray.shift());
+    return ordenatedArray;
   }
 
   function winTheGame() {
-    if (getOrdinateArray().every((e, index) => e === getButtonsArray()[index])) {
+    if (getOrdenatedArray().every((e, index) => e === getButtonsArray()[index])) {
       setToggle(!toggle());
       setConclusionTime(timer());
     }
@@ -65,8 +68,7 @@ function Board({ isTimerStarted }) {
     if (getLastCharacter(emptyButton.id) === getLastCharacter(target.id) && Math.abs(emptyButton.id[0] - target.id[0]) === 1) {
       changeTiles(target, emptyButton);
     }
-    if (emptyButton.id[0] === target.id[0] && Math.abs(getLastCharacter(emptyButton.id) - getLastCharacter(target.id)) === 1
-    ) {
+    if (emptyButton.id[0] === target.id[0] && Math.abs(getLastCharacter(emptyButton.id) - getLastCharacter(target.id)) === 1) {
       changeTiles(target, emptyButton);
     }
   }
